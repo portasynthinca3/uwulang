@@ -12,4 +12,4 @@ pawbsnum age
 loawd age age + 20
 owo whats 'In 20 yeaws you would be ' + age + ' yeaws owd UwU'
 ```
-![example.png](output of the example script above)
+![https://raw.githubusercontent.com/portasynthinca3/uwulang/master/example.png](output of the example script above)

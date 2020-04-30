@@ -3,8 +3,12 @@
 import sys, os
 import re
 
+from gtts import gTTS
+from playsound import playsound
+from tempfile import mktemp
+
 # owo what's this
-# uwulang is a simple-ass interpreted language for fucking furries
+# uwulang is a simple-ass interpreted language for furries
 # do whatever the fuck you want, this is distibuted under WTFPL
 
 # WARNING: THIS CODE WAS WRITTEN LATE AT NIGHT
@@ -125,6 +129,19 @@ class uwulang:
             else:
                 expr = ' '.join(args[2:])
                 print(self.parse_expr(expr))
+        # say expression value
+        elif l.startswith('speawk'):
+            if len(args) < 2:
+                self.err('\'speawk\' takes one awgument like this: \'speawk expwession\'')
+            else:
+                expr = ' '.join(args[1:])
+                val = self.parse_expr(expr)
+                try:
+                    path = mktemp('_uwulang.mp3')
+                    gTTS(text=str(val), lang='en', slow=False).save(path)
+                    playsound(path)
+                except:
+                    self.err('\'speawk\' failed. Do you have an intewnet connection OwO?')
         # input a numeric value
         elif l.startswith('pawbsnum'):
             if len(args) != 2:

@@ -1,5 +1,5 @@
-# uwulang - an interpreted language for fucking furries
-This project was originally thrown together late at night in two hours, please don't hate me/
+# uwulang - an interpreted language for furries
+This project was originally thrown together late at night in two hours, please don't hate me.
 
 # Usage
 You can run it in both interactive and file modes. To run it in the file mode, simply specify the filename as the argument to the script. To run it in interactive mode, don't specify any arguments. Examples can be seen in the `examples/` directory nad here:

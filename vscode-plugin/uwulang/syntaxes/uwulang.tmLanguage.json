@@ -18,7 +18,7 @@
             "name": "string.quoted"
 		},
 		{
-			"match": "owo whats|loawd|bye owo|pawbsnum|pawbs",
+			"match": "owo whats|loawd|bye owo|pawbsnum|pawbs|speawk",
 			"name": "keyword"
 		},
 		{

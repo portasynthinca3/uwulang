@@ -1,0 +1,44 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "uwulang",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#strings"
+		},
+        {
+            "match": "#.*",
+            "name": "comment.line"
+        },
+        {
+            "begin": "'",
+            "end": "'",
+            "name": "string.quoted"
+		},
+		{
+			"match": "owo whats|loawd|bye owo|pawbsnum|pawbs",
+			"name": "keyword"
+		},
+		{
+			"match": "[0-9]",
+			"name": "constant.numeric"
+		}
+	],
+	"repository": {
+		"paren-expression": {
+			"begin": "\\(",
+			"end": "\\)",
+			"beginCaptures": {
+				"0": { "name": "punctuation.paren.open" }
+			},
+			"endCaptures": {
+				"0": { "name": "punctuation.paren.close" }
+			},
+			"name": "expression.group",
+			"patterns": [{ "include": "#expression" }]
+		}
+	},
+	"scopeName": "source.uwu"
+}

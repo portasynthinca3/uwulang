@@ -1,0 +1,25 @@
+{
+    "name": "uwulang",
+    "displayName": "uwulang",
+    "description": "VS Code support for uwulang",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.44.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "uwulang",
+            "aliases": ["uwulang", "uwulang"],
+            "extensions": [".uwu"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "uwulang",
+            "scopeName": "source.uwu",
+            "path": "./syntaxes/uwulang.tmLanguage.json"
+        }]
+    }
+}

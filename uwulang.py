@@ -18,11 +18,25 @@ class uwulang:
     abort = False
 
     def err(self, text):
-        print('Error: ' + text)
+        print('Ewwow: ' + text)
         if self.abort:
             exit()
 
     def parse_expr(self, text):
+        # if an empty string was given, that's None
+        if text == '':
+            return None
+        # replace stuff in brackets with values
+        left_brackets = [m.start() for m in re.finditer('\\(', text)]
+        right_brackets = [m.start() for m in re.finditer('\\)', text)]
+        if len(left_brackets) != len(right_brackets):
+            self.err('opening and closing bwackets don\'t match')
+        elif len(left_brackets) > 0 and len(right_brackets) > 0:
+            # evaluate the expression
+            e = text[left_brackets[0]+1 : right_brackets[-1]]
+            v = self.parse_expr(e)
+            # replace the original one with brackets with the value
+            text = text[:left_brackets[0]] + str(v) + text[right_brackets[-1]+1:]
         # recursive shit, I don't really like this
         # split the text by possible operators, recursively parse them
         text = text.strip(' ')
@@ -56,27 +70,41 @@ class uwulang:
             for t in divs[1:]:
                 res = res / self.parse_expr(t)
             return res
-        # if an empty string was given, that's a NULL
-        if text == '':
-            return None
+        # a list defintion is in square brackets
+        elif text.startswith('[') and text.endswith(']'):
+            return [self.parse_expr(x) for x in text[1:-1].split(',')]
         # it's probably a text value if it's in single quotes
         if text.startswith('\'') and text.endswith('\''):
             return text[1:-1]
         # if the text is a... pure text that doesn't start with a number, that must be a variable name
-        elif re.match('[a-zA-Z0-9]', text) and text[0] not in [str(x) for x in range(0, 10)]:
-            if not text in self.vars:
-                self.err('vawiable \'' + text + '\' doesn\'t exist')
+        elif re.match('[a-zA-Z0-9_\\[\\]]', text) and text[0] not in [str(x) for x in range(0, 10)]:
+            # detect possible index
+            idx = None
+            var_name = text
+            if text[-1] == ']' and text.find('[') != -1:
+                idx = self.parse_expr(text[text.find('[')+1 :-1])
+                var_name = text[:text.find('[')]
+            if not var_name in self.vars:
+                self.err('vawiable \'' + var_name + '\' doesn\'t exist')
             else:
-                return self.vars[text]
+                if idx == None:
+                    return self.vars[text]
+                else:
+                    if idx < len(self.vars[var_name]):
+                        return self.vars[var_name][idx]
+                    else:
+                        self.err('youw index is too lawge, senpai O_O')
         # if the text only contains only numbers, it must be a number
         elif re.match('[0-9]', text):
             return int(text)
 
     def interpret_line(self, line):
         l = line.strip()
+        # everything after the hash is a comment
+        l = line.split('#')[0]
         # the letter 'R' is not allowed!
         if 'r' in l or 'R' in l:
-            self.err('the lettew \'r\' is not allowed! use \'w\' only!')
+            self.err('the lettew \'r\' is not allowed! use \'w\' instead!')
             return
         args = l.split(' ')
         # exit
@@ -111,6 +139,9 @@ class uwulang:
             else:
                 var_name = args[1]
                 self.vars[var_name] = input('> ')
+        # empty line... uh, okay
+        elif l == '':
+            pass
         # what?
         else:
             self.err('unknown commnd. please twy hawder owo')
